@@ -64,13 +64,13 @@ you specified a user instead of a package, if not, report this to https://github
   if (exists("/tmp/.portage")) {
     if (exists("/tmp/.portage/.version-" ~ pkgname)) {
       string ver_last = readText("/tmp/.portage/.version-" ~ disp_pkgname);
-      
+      auto ver = executeShell("git log --format=\"%H\" -n 1");
+      if (ver.output == ver_last) {
+        writeln("warning: reinstalling, both versions are the same!");
+      }
       auto gitdiff = executeShell("git diff " ~ ver_last);
       if (gitdiff.output.length == 0) {
         writeln("warning: no git diff found");
-      }
-      else {
-        writeln("diff: " ~ gitdiff.output);
       }
     }
   } else {
