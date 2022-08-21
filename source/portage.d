@@ -4,7 +4,6 @@ import source.subs;
 import std.process;
 import std.file;
 
-
 int main(string[] args) {
   if (args.length == 1) {
     writeln("'portage' requires one subcommand, say 'portage help' for a list of subcommands.");
