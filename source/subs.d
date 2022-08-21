@@ -2,6 +2,7 @@ import std.stdio;
 import std.net.curl;
 import std.process;
 import std.file;
+import std.string;
 
 int print_usage(bool err = false) {
   writeln("
@@ -58,10 +59,11 @@ int install(string pkgname) {
 you specified a user instead of a package, if not, report this to https://github.com/DoorsLinux/Portage-Support/issues");
     return 1;
   }
+  string disp_pkgname = pkgname[indexOf(pkgname, '/')+1..$];
   writeln(":: Getting last installed version...");
   if (exists("/tmp/.portage")) {
     if (exists("/tmp/.portage/.version-" ~ pkgname)) {
-      string ver_last = readText("/tmp/.portage/.version-" ~ pkgname);
+      string ver_last = readText("/tmp/.portage/.version-" ~ disp_pkgname);
       
       auto gitdiff = executeShell("git diff " ~ ver_last);
       if (gitdiff.output.length == 0) {
