@@ -15,6 +15,7 @@ Commands:
   ask          Ask for the package, will return non-zero if it's not found.
   help         Show this message again.
   version      Print the version.
+  upgrade      Install portage itself (latest version)
 ");
   if (err)return 1;
   return 0;

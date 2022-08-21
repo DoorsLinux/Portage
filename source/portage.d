@@ -24,6 +24,10 @@ int main(string[] args) {
     case "version":
       writeln("Portage is still in version 1!");
       break;
+    case "upgrade":
+      writeln(":: Updating portage!");
+      install("thekaigonzalez/portage");
+      break;
     case "help":
       return print_usage(false);
     default:
