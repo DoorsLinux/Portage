@@ -27,12 +27,18 @@ void print_error(string errmsg, string progname = "portage") {
   writefln("%s: \033[31;1merror: \033[0m%s", progname, errmsg);
 }
 
-
-
 int ask(string pkgname) {
   string veryify_site = "https://github.com/" ~ pkgname;
 
   try { get(veryify_site);return 0; } catch (CurlException) { return 1; }
+}
+
+bool same_version(string pkg) {
+  auto git_latest = executeShell("git log --format='%H' -n 1");
+  auto fs_latest = readText("/tmp/portage/version-" ~ pkg);
+
+  if (fs_latest == git_latest.output) return true;
+  else return false;
 }
 
 int install(string pkgname) {
