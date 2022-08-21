@@ -59,15 +59,15 @@ you specified a user instead of a package, if not, report this to https://github
     return 1;
   }
 
-  writeln("configuring build...");
-  executeShell("meson build");
+  writeln(":: Running install hooks...");
+  executeShell("source ./pbuild && build");
   writeln("building package...");
-  chdir("build");
-  auto ninja = executeShell("ninja install");
-  if (ninja.status != 0) {
-    print_error("when building package:\noutput:\n" ~ ninja.output);
-    return 1;
-  }
+  // chdir("build");
+  // auto ninja = executeShell("ninja install");
+  // if (ninja.status != 0) {
+  //  print_error("when building package:\noutput:\n" ~ ninja.output);
+  //  return 1;
+  // }
   writeln(":: Running default post-installation");
   rmdirRecurse("/tmp/gtp");
   return 0;

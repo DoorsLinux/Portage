@@ -1,0 +1,5 @@
+build() {
+  meson build
+  cd build
+  ninja install
+}
