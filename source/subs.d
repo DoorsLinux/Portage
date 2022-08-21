@@ -58,9 +58,13 @@ int install(string pkgname) {
 you specified a user instead of a package, if not, report this to https://github.com/DoorsLinux/Portage-Support/issues");
     return 1;
   }
-
+  writeln(":: Checking diff...");
+  auto gitdiff = executeShell("git diff");
+  if (gitdiff.output.length == 0) {
+    writeln("warning: no git diff found");
+  }
   writeln(":: Running install hooks...");
-  writeln(executeShell("source ./pbuild && build").output);
+  executeShell("source ./pbuild && build");
   writeln("building package...");
   // chdir("build");
   // auto ninja = executeShell("ninja install");
