@@ -2,5 +2,5 @@
 
 Portage, the successor to **Pop** and **gitstrap**.
 
-Portage provies a package system reliant on git and meson to build any package with a meson.build file.
+Portage provies a package system reliant on git and bash to build any package you desire.
 
