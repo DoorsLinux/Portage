@@ -88,6 +88,10 @@ you specified a user instead of a package, if not, report this to https://github
     print_error("could not create diff cache: " ~ e.msg);
   }
   writeln(":: Running install hooks...");
+  if (!exists("pbuild")) { 
+    print_error("repository '" ~ disp_pkgname ~ "' does not support portage.");
+    return -1;
+  }
   executeShell("source ./pbuild && build");
   writeln("building package...");
   // chdir("build");
