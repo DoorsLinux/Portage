@@ -10,6 +10,7 @@ int main(string[] args) {
     writeln("'portage' requires one subcommand, say 'portage help' for a list of subcommands.");
     return 0;
   }
+  try {
   switch (args[1]) {
     case "ask":
       if (args.length == 2) { 
@@ -30,9 +31,18 @@ int main(string[] args) {
       break;
     case "help":
       return print_usage(false);
+    case "update":
+      if (same_version(args[2])) {
+        writeln("package '" ~ args[2] ~ "' up-to-date. nothing to do.");
+      }
+      break;
     default:
       print_error(format("unknown command, `%s'", args[1]));
       return 1;
+  }
+  } catch (Error e) {
+    print_error(e.msg);
+    return 1;
   }
   return 0;
 }
