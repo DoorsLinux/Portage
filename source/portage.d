@@ -68,6 +68,8 @@ int main(string[] args) {
     case "version":
       writeln("Portage is still in version 1!");
       break;
+    case "help":
+      return print_usage(false);
     default:
       print_error(format("unknown command, `%s'", args[1]));
       return 1;
