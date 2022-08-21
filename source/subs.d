@@ -3,6 +3,7 @@ import std.net.curl;
 import std.process;
 import std.file;
 import std.string;
+// import std.json;
 
 int print_usage(bool err = false) {
   writeln("
