@@ -36,6 +36,7 @@ int ask(string pkgname) {
 }
 
 int install(string pkgname) {
+  bool showdiff = false;
   writeln(":: Checking for package...");
   if (ask(pkgname) == 0) {
     writeln("package found!");
@@ -72,6 +73,7 @@ you specified a user instead of a package, if not, report this to https://github
       if (gitdiff.output.length == 0) {
         writeln("warning: no git diff found");
       } else {
+        if (showdiff)
         writeln(gitdiff.output);
       }
     }
