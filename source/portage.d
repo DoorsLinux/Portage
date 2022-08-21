@@ -43,7 +43,7 @@ int main(string[] args) {
       return 1;
   }
   } catch (Error e) {
-    print_error(e.msg);
+    print_error("core error: " ~ e.msg);
     return 1;
   }
   return 0;
