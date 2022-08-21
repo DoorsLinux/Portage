@@ -34,7 +34,9 @@ int main(string[] args) {
     case "update":
       if (same_version(args[2])) {
         writeln("package '" ~ args[2] ~ "' up-to-date. nothing to do.");
+        return 0;
       }
+      install(args[2]);
       break;
     default:
       print_error(format("unknown command, `%s'", args[1]));
