@@ -1,5 +1,8 @@
+# portage install thekaigonzalez/portage
+
 build() {
   meson build
   cd build
   ninja install
 }
+
