@@ -26,8 +26,10 @@ void print_error(string errmsg, string progname = "portage") {
 }
 
 int main(string[] args) {
-  if (args.length == 1) return print_usage();
-  
+  if (args.length == 1) {
+    writeln("'portage' requires one subcommand, say 'portage help' for a list of subcommands.");
+    return 0;
+  }
   switch (args[1]) {
     case "ask":
       if (args.length == 2) { 
