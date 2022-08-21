@@ -15,6 +15,7 @@ Commands:
   install      Install a package.
   ask          Ask for the package, will return non-zero if it's not found.
   help         Show this message again.
+  version      Print the version.
 ");
   if (err)return 1;
   return 0;
@@ -63,6 +64,9 @@ int main(string[] args) {
       }
       writeln(":: Running default post-installation");
       rmdirRecurse("/tmp/gtp");
+      break;
+    case "version":
+      writeln("Portage is still in version 1!");
       break;
     default:
       print_error(format("unknown command, `%s'", args[1]));
