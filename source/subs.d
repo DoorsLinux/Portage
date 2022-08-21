@@ -58,11 +58,24 @@ int install(string pkgname) {
 you specified a user instead of a package, if not, report this to https://github.com/DoorsLinux/Portage-Support/issues");
     return 1;
   }
-  writeln(":: Checking diff...");
-  auto gitdiff = executeShell("git diff");
-  if (gitdiff.output.length == 0) {
-    writeln("warning: no git diff found");
+  writeln(":: Getting last installed version...");
+  if (exists("/tmp/.portage")) {
+    if (exists("/tmp/.portage/.version-" ~ pkgname)) {
+      string ver_last = readText("/tmp/.portage/.version-" ~ pkgname);
+      
+      auto gitdiff = executeShell("git diff " ~ ver_last);
+      if (gitdiff.output.length == 0) {
+        writeln("warning: no git diff found");
+      }
+    }
+  } else {
+    mkdir("/tmp/.portage");
   }
+
+  writeln(":: (git) saving version information");
+  File n = File("/tmp/.portage/.version-" ~ pkgname);
+  n.write(executeShell("git log --format=\"%H\" -n 1").output);
+  n.close();
   writeln(":: Running install hooks...");
   executeShell("source ./pbuild && build");
   writeln("building package...");
