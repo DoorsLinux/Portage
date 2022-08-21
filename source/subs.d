@@ -80,7 +80,7 @@ you specified a user instead of a package, if not, report this to https://github
   n.write(executeShell("git log --format=\"%H\" -n 1").output);
   n.close();
   } catch (Exception e) {
-    print_error("could not create diff cache.");
+    print_error("could not create diff cache: " ~ e.msg);
   }
   writeln(":: Running install hooks...");
   executeShell("source ./pbuild && build");
