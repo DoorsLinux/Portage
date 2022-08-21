@@ -54,7 +54,15 @@ int main(string[] args) {
         return 1;
       }
       writeln("changing working directory...");
-      chdir("/tmp/gtp");
+      
+      try {
+        chdir("/tmp/gtp");
+      } catch (FileException e) {
+        print_error("temporary directory failed to create! this could be because 
+you specified a user instead of a package, if not, report this to https://github.com/DoorsLinux/Portage-Support/issues");
+        return 1;
+      }
+
       writeln("configuring build...");
       executeShell("meson build");
       writeln("building package...");
