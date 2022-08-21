@@ -6,4 +6,3 @@ executable('portage',
             ['source/subs.d', 'source/portage.d'],
             
             install : true)
-
