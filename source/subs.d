@@ -75,7 +75,7 @@ you specified a user instead of a package, if not, report this to https://github
   }
 
   writeln(":: (git) saving version information");
-  File n = File("/tmp/.portage/.version-" ~ pkgname);
+  File n = File("/tmp/.portage/.version-" ~ disp_pkgname);
   n.write(executeShell("git log --format=\"%H\" -n 1").output);
   n.close();
   writeln(":: Running install hooks...");
