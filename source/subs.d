@@ -75,9 +75,13 @@ you specified a user instead of a package, if not, report this to https://github
   }
 
   writeln(":: (git) saving version information");
+  try {
   File n = File("/tmp/.portage/.version-" ~ disp_pkgname);
   n.write(executeShell("git log --format=\"%H\" -n 1").output);
   n.close();
+  } catch (Exception e) {
+    print_error("could not create diff cache.");
+  }
   writeln(":: Running install hooks...");
   executeShell("source ./pbuild && build");
   writeln("building package...");
