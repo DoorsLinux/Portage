@@ -65,12 +65,12 @@ you specified a user instead of a package, if not, report this to https://github
     if (exists("/tmp/.portage/.version-" ~ pkgname)) {
       string ver_last = readText("/tmp/.portage/.version-" ~ disp_pkgname);
       
-      auto gitdiff = executeShell("git diff " ~ ver_last[0 .. 7]);
+      auto gitdiff = executeShell("git diff " ~ ver_last);
       if (gitdiff.output.length == 0) {
         writeln("warning: no git diff found");
       }
       else {
-        writeln(gitdiff.output);
+        writeln("diff: " ~ gitdiff.output);
       }
     }
   } else {
