@@ -60,7 +60,6 @@ you specified a user instead of a package, if not, report this to https://github
     return 1;
   }
   string disp_pkgname = pkgname[indexOf(pkgname, '/')+1..$];
-  writeln(":: Getting last installed version...");
   if (exists("/tmp/.portage")) {
     if (exists("/tmp/.portage/.version-" ~ pkgname)) {
       string ver_last = readText("/tmp/.portage/.version-" ~ disp_pkgname);
@@ -68,6 +67,8 @@ you specified a user instead of a package, if not, report this to https://github
       if (ver.output == ver_last) {
         writeln("warning: reinstalling, both versions are the same!");
       }
+      writeln(ver.output);
+      writeln(ver_last);
       auto gitdiff = executeShell("git diff " ~ ver_last);
       if (gitdiff.output.length == 0) {
         writeln("warning: no git diff found");
