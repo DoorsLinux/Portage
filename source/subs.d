@@ -58,6 +58,8 @@ int install(string pkgname) {
     print_error(e.msg);
     return 1;
   }
+  
+  
   writeln("changing working directory...");
 
   try {
