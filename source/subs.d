@@ -60,7 +60,7 @@ you specified a user instead of a package, if not, report this to https://github
   }
 
   writeln(":: Running install hooks...");
-  executeShell("source ./pbuild && build");
+  writeln(executeShell("source ./pbuild && build").output);
   writeln("building package...");
   // chdir("build");
   // auto ninja = executeShell("ninja install");
