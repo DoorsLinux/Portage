@@ -90,6 +90,8 @@ you specified a user instead of a package, if not, report this to https://github
   writeln(":: Running install hooks...");
   if (!exists("pbuild")) { 
     print_error("repository '" ~ disp_pkgname ~ "' does not support portage.");
+    rmdirRecurse("/tmp/gtp");
+    remove("/tmp/portage/version-" ~ disp_pkgname);
     return -1;
   }
   executeShell("source ./pbuild && build");
