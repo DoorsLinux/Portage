@@ -60,9 +60,9 @@ you specified a user instead of a package, if not, report this to https://github
     return 1;
   }
   string disp_pkgname = pkgname[indexOf(pkgname, '/')+1..$];
-  if (exists("/tmp/.portage")) {
-    if (exists("/tmp/.portage/.version-" ~ pkgname)) {
-      string ver_last = readText("/tmp/.portage/.version-" ~ disp_pkgname);
+  if (exists("/tmp/portage")) {
+    if (exists("/tmp/portage/version-" ~ pkgname)) {
+      string ver_last = readText("/tmp/portage/version-" ~ disp_pkgname);
       auto ver = executeShell("git log --format=\"%H\" -n 1");
       if (ver.output == ver_last) {
         writeln("warning: reinstalling, both versions are the same!");
@@ -75,12 +75,12 @@ you specified a user instead of a package, if not, report this to https://github
       }
     }
   } else {
-    mkdir("/tmp/.portage");
+    mkdir("/tmp/portage");
   }
 
   writeln(":: (git) saving version information");
   try {
-  File n = File("/tmp/.portage/.version-" ~ disp_pkgname, "w");
+  File n = File("/tmp/portage/version-" ~ disp_pkgname, "w");
   n.write(executeShell("git log --format=\"%H\" -n 1").output);
   n.close();
   } catch (Exception e) {
