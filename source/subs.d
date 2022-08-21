@@ -69,6 +69,9 @@ you specified a user instead of a package, if not, report this to https://github
       if (gitdiff.output.length == 0) {
         writeln("warning: no git diff found");
       }
+      else {
+        writeln(gitdiff.output);
+      }
     }
   } else {
     mkdir("/tmp/.portage");
