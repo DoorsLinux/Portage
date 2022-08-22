@@ -3,6 +3,7 @@ import std.net.curl;
 import std.process;
 import std.file;
 import std.string;
+import std.path;
 // import std.json;
 
 int print_usage(bool err = false) {
@@ -29,6 +30,7 @@ Commands:
 
 void list_installed() {
   foreach (string f ; dirEntries("/tmp/portage", SpanMode.depth)) {
+    f = baseName(f);
     string pkg_version = readText("/tmp/portage/" ~ f);
     string pkg_name = f[f.indexOf("-")+1..$];
     writefln("package: %s\n\tversion: %s", pkg_name, pkg_version);
