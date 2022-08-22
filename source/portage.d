@@ -4,6 +4,7 @@ import source.subs;
 import std.process;
 import std.file;
 import std.string;
+import source.gitversion;
 
 string VERSION = "";
 
@@ -38,7 +39,7 @@ int main(string[] args) {
       }
       break;
     case "version":
-      writeln("Signature: " ~ VERSION ~ "\nSupports E-Building: yes\nSupports PBuild: yes");
+      writeln("Signature: " ~ GIT_VERSION ~ "\nSupports E-Building: yes\nSupports PBuild: yes");
       break;
     case "upgrade":
       writeln(":: Updating portage!");
