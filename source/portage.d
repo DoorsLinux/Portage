@@ -49,6 +49,9 @@ int main(string[] args) {
       writeln(":: Updating portage!");
       install("thekaigonzalez/portage");
       break;
+    case "remove":
+      remove_pkg(args[2]);
+      break;
     case "list":
       list_installed();
       return 0;
