@@ -110,6 +110,9 @@ you specified a user instead of a package, if not, report this to https://github
   }
   string author = executeShell("source ./pbuild && echo \"${author[0]}\"").output.strip;
 
+  if (author.length == 0) {
+    author = "(No Author information)";
+  }
   writefln(":: Would you like to install this software by %s?", author);
 
   write("(y/n) ");
