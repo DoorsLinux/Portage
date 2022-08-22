@@ -77,7 +77,7 @@ you specified a user instead of a package, if not, report this to https://github
       if (ver.output == ver_last) {
         writeln("warning: reinstalling, both versions are the same!");
       } else {
-        writeln("upgrade: " ~ ver_last ~ " -> " ~ ver.output);
+        writeln("upgrade: " ~ ver_last[0 .. 5] ~ " -> " ~ ver.output[0 .. 5]);
       }
       auto gitdiff = executeShell("git diff " ~ ver_last);
       
