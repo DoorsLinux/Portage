@@ -78,7 +78,7 @@ int build_directory(string dirname) {
   writeln("are you ready to build this software? Author: " ~ author ~ "");
 
   write("(y/n) ");
-  string yn = readln();
+  string yn = readln().strip;
 
   if (yn == "n") { return 1; }
 
@@ -173,7 +173,7 @@ you specified a user instead of a package, if not, report this to https://github
   writefln(":: Would you like to install this software by %s?", author);
 
   write("(y/n) ");
-  string yn = readln();
+  string yn = readln().strip;
 
   if (yn == "n") {
     return 0;
