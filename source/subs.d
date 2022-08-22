@@ -62,6 +62,8 @@ int remove_pkg(string pkgname) {
   }
 
   writeln(":: Remove hook completed, package (hopefully) removed! ;)");
+  rmdirRecurse("/tmp/gtp");
+  return 0;
 }
 
 void print_error(string errmsg, string progname = "portage") {
