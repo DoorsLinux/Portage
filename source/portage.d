@@ -8,11 +8,12 @@ import source.gitversion;
 
 string VERSION = "";
 
+string fresh_or_maintained() {
+  if (exists("/tmp/portage/version-portage")) return "maintained";
+  else return "fresh";
+}
+
 int main(string[] args) {
-  if (exists("/tmp/portage/version-portage")) VERSION=readText("/tmp/portage/version-portage").strip;
-  else {
-    VERSION="(fresh)";
-  }
   if (executeShell("git").status == 127) {
     print_error("failed to find git installation. please install git.");
     return -1;
