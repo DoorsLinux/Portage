@@ -108,8 +108,18 @@ you specified a user instead of a package, if not, report this to https://github
     remove("/tmp/portage/version-" ~ disp_pkgname);
     return -1;
   }
+  string author = executeShell("source ./pbuild && echo \"${author[0]}\"").output.strip;
+
+  writefln(":: Would you like to install this software by %s?", author);
+
+  write("(y/n) ");
+  string yn = readln();
+
+  if (yn == "n") {
+    return 0;
+  }
+  writeln(":: Building package...");
   executeShell("source ./pbuild && build");
-  writeln("building package...");
   // chdir("build");
   // auto ninja = executeShell("ninja install");
   // if (ninja.status != 0) {
