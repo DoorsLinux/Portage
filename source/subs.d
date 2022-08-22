@@ -124,7 +124,9 @@ int build_directory(string dirname) {
   write("(y/n) ");
   string yn = readln().strip;
 
-  if (yn == "n") { return 1; }
+  if (yn == "n") { 
+    rmdirRecurse("/tmp/gtp");
+    return 1; }
 
   writeln(":: Building package...");
   
@@ -220,6 +222,7 @@ you specified a user instead of a package, if not, report this to https://github
   string yn = readln().strip;
 
   if (yn == "n") {
+    rmdirRecurse("/tmp/gtp");
     return 0;
   }
   writeln(":: Building package...");
