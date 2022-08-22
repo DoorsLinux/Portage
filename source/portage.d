@@ -3,6 +3,7 @@ import std.format;
 import source.subs;
 import std.process;
 import std.file;
+import std.string;
 
 string VERSION = "";
 
