@@ -51,7 +51,7 @@ int build_directory(string dirname) {
     print_error("no ebuild found.");
     return 1;
   }
-  string author = executeShell("source ./ebuild && echo \"${author[0]}\"").output;
+  string author = executeShell("source ./ebuild && echo \"${author[0]}\"").output.strip;
   string repo = executeShell("source ./ebuild && echo \"${repository[0]}\"").output.strip;
   
   writeln(":: Cloning repository...");
@@ -63,7 +63,7 @@ int build_directory(string dirname) {
   // What I'm gonna do is copy the ebuild to the working
   // directory and i'm gonna try to run the instructions as
   // if they were in the current dir.
-
+  if (!exists("/tmp/gtp/ebuild"))
   copy("./ebuild", "/tmp/gtp/ebuild");
 
   try {
@@ -75,7 +75,7 @@ int build_directory(string dirname) {
     return -1;
   }
 
-  writeln("would you like to install this software by: " ~ author ~ "?");
+  writeln("are you ready to build this software? Author: " ~ author ~ "");
 
   write("(y/n) ");
   string yn = readln();
@@ -122,6 +122,9 @@ int install(string pkgname) {
     print_error("temporary directory failed to create! this could be because
 you specified a user instead of a package, if not, report this to https://github.com/DoorsLinux/Portage-Support/issues");
     return 1;
+  }
+  if (exists("ebuild")) {
+    return build_directory("./");
   }
   string disp_pkgname = pkgname[indexOf(pkgname, '/')+1..$];
   if (exists("/tmp/portage")) {
