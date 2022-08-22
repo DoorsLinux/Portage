@@ -7,7 +7,7 @@ import std.file;
 string VERSION = "";
 
 int main(string[] args) {
-  if (exists("/tmp/portage/version-portage")) VERSION=readText("/tmp/portage/version-portage");
+  if (exists("/tmp/portage/version-portage")) VERSION=readText("/tmp/portage/version-portage").strip;
   else {
     VERSION="(fresh)";
   }
