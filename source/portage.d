@@ -21,6 +21,11 @@ int main(string[] args) {
     case "install":
       install(args[2]);
       break;
+    case "build":
+      if (exists(args[2]) && isDir(args[2])) {
+        return build_directory(args[2]);
+      }
+      break;
     case "version":
       writeln("Portage is still in version 1!");
       break;

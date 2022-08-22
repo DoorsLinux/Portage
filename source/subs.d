@@ -17,6 +17,7 @@ Commands:
   ask          Ask for the package, will return non-zero if it's not found.
   help         Show this message again.
   version      Print the version.
+  build        Build a package.
   upgrade      Install portage itself (latest version)
 ");
   if (err)return 1;
@@ -39,6 +40,59 @@ bool same_version(string pkg) {
 
   if (fs_latest == git_latest.output) return true;
   else return false;
+}
+
+int build_directory(string dirname) {
+  writeln(":: Changing working_dir to " ~dirname ~ "...");
+  if (!endsWith(dirname, "/")) dirname ~= "/";
+  chdir(dirname);
+  writeln(":: Checking for `ebuild' ...");
+  if (!exists("./ebuild")) {
+    print_error("no ebuild found.");
+    return 1;
+  }
+  string author = executeShell("source ./ebuild && echo \"${author[0]}\"").output;
+  string repo = executeShell("source ./ebuild && echo \"${repository[0]}\"").output.strip;
+  
+  writeln(":: Cloning repository...");
+  executeShell("git clone " ~ repo ~ " /tmp/gtp");
+  
+  writeln(":: Configuring repository...");
+
+  // OK, so this is a bit tricky.
+  // What I'm gonna do is copy the ebuild to the working
+  // directory and i'm gonna try to run the instructions as
+  // if they were in the current dir.
+
+  copy("./ebuild", "/tmp/gtp/ebuild");
+
+  try {
+    chdir("/tmp/gtp");
+  }
+  catch (FileException) {
+    print_error("failed to change to the temporary directory!");
+    rmdirRecurse("/tmp/gtp");
+    return -1;
+  }
+
+  writeln("would you like to install this software by: " ~ author ~ "?");
+
+  write("(y/n) ");
+  string yn = readln();
+
+  if (yn == "n") { return 1; }
+
+  writeln(":: Building package...");
+  
+  executeShell("source ./ebuild && instruction");
+
+  writeln(":: Running post-install ...");
+
+  rmdirRecurse("/tmp/gtp");
+
+  writeln("Installation completed!");
+
+  return 0;
 }
 
 int install(string pkgname) {
