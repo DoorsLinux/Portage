@@ -1,5 +1,7 @@
 # portage install thekaigonzalez/portage
 
+author=( "Kai Daniel Gonzalez" )
+
 build() {
   meson build
   cd build
