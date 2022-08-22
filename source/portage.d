@@ -5,6 +5,10 @@ import std.process;
 import std.file;
 
 int main(string[] args) {
+  if (executeShell("git").status == 127) {
+    print_error("failed to find git installation. please install git.");
+    return -1;
+  }
   if (args.length == 1) {
     writeln("'portage' requires one subcommand, say 'portage help' for a list of subcommands.");
     return 0;
