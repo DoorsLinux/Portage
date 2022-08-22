@@ -49,6 +49,9 @@ int main(string[] args) {
       writeln(":: Updating portage!");
       install("thekaigonzalez/portage");
       break;
+    case "list":
+      list_installed();
+      return 0;
     case "check":
       if (exists("/tmp/portage/version-" ~ args[2])) {
         writeln("Currently installed version of " ~ args[2] ~ ": " ~ ("/tmp/portage/version-"~args[2]).readText.strip[0 .. 5]);

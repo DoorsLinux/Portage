@@ -21,9 +21,18 @@ Commands:
   upgrade      Install portage itself (latest version)
   status       To fully understand what this command does, please refer to <https://github.com/thekaigonzalez/Portage/wiki/Maintaining-Portage>.
   check        Returns the version hash (from 0-5) of the requested package.
+  list         List the installed packages and their versions  
 ");
   if (err)return 1;
   return 0;
+}
+
+void list_installed() {
+  foreach (string f ; dirEntries("/tmp/portage", SpanMode.depth)) {
+    string pkg_version = readText("/tmp/portage/" ~ f);
+    string pkg_name = f[f.indexOf("-")+1..$];
+    writefln("package: %s\n\tversion: %s", pkg_name, pkg_version);
+  }
 }
 
 void print_error(string errmsg, string progname = "portage") {
