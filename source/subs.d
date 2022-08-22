@@ -50,6 +50,7 @@ int remove_pkg(string pkgname) {
   if (exists("ebuild")) {
     print_error("if you are trying to use an E-Build removal process, do NOT use 'portage remove'.");
     print_error("instead, try to use the new E-Build 'removal' type please.");
+    return -1;
   }
 
   writeln(":: Executing remove hooks...");
@@ -63,6 +64,7 @@ int remove_pkg(string pkgname) {
 
   writeln(":: Remove hook completed, package (hopefully) removed! ;)");
   rmdirRecurse("/tmp/gtp");
+  remove("/tmp/portage/version-" ~ pkgname[indexOf(pkgname, "/")+1 .. $]);
   return 0;
 }
 
