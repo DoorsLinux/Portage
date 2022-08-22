@@ -4,7 +4,13 @@ import source.subs;
 import std.process;
 import std.file;
 
+string VERSION = "";
+
 int main(string[] args) {
+  if (exists("/tmp/portage/version-portage")) VERSION=readText("/tmp/portage/version-portage");
+  else {
+    VERSION="(fresh)";
+  }
   if (executeShell("git").status == 127) {
     print_error("failed to find git installation. please install git.");
     return -1;
@@ -31,7 +37,7 @@ int main(string[] args) {
       }
       break;
     case "version":
-      writeln("Portage is still in version 1!");
+      writeln("Signature: " ~ VERSION ~ "\nSupports E-Building: yes\nSupports PBuild: yes");
       break;
     case "upgrade":
       writeln(":: Updating portage!");
