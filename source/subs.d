@@ -19,6 +19,7 @@ Commands:
   version      Print the version.
   build        Build a package.
   upgrade      Install portage itself (latest version)
+  status       To fully understand what this command does, please refer to <https://github.com/thekaigonzalez/Portage/wiki/Maintaining-Portage>.
 ");
   if (err)return 1;
   return 0;
