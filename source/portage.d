@@ -42,6 +42,9 @@ int main(string[] args) {
     case "version":
       writeln("Signature: " ~ GIT_VERSION ~ "\nSupports E-Building: yes\nSupports PBuild: yes");
       break;
+    case "status":
+      writeln(fresh_or_maintained());
+      break;
     case "upgrade":
       writeln(":: Updating portage!");
       install("thekaigonzalez/portage");
