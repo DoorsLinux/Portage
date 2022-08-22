@@ -23,6 +23,7 @@ Commands:
   status       To fully understand what this command does, please refer to <https://github.com/thekaigonzalez/Portage/wiki/Maintaining-Portage>.
   check        Returns the version hash (from 0-5) of the requested package.
   list         List the installed packages and their versions  
+  remove       Remove a package.
 ");
   if (err)return 1;
   return 0;
@@ -35,6 +36,32 @@ void list_installed() {
     string pkg_name = f[f.indexOf("-")+1..$];
     writefln("package: %s\n\tversion: %s", pkg_name, pkg_version);
   }
+}
+
+int remove_pkg(string pkgname) {
+  writeln(":: Trying to remove package, `" ~ pkgname ~ "'");
+  writeln("cloning...");
+  executeShell("git clone https://github.com/" ~ pkgname ~ " /tmp/gtp");
+  writeln("changing working dir...");
+  try {
+  chdir("/tmp/gtp");
+  } catch (Exception e) { print_error(e.msg); return -1; }
+  
+  if (exists("ebuild")) {
+    print_error("if you are trying to use an E-Build removal process, do NOT use 'portage remove'.");
+    print_error("instead, try to use the new E-Build 'removal' type please.");
+  }
+
+  writeln(":: Executing remove hooks...");
+
+  auto removeHook = executeShell("source ./pbuild && remove");
+
+  if (removeHook.status == 127) {
+    print_error("currently, your package does not support the 'remove' hook;\nbut give maintainers some time to adjust.");
+    return -1;
+  }
+
+  writeln(":: Remove hook completed, package (hopefully) removed! ;)");
 }
 
 void print_error(string errmsg, string progname = "portage") {
