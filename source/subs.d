@@ -20,6 +20,7 @@ Commands:
   build        Build a package.
   upgrade      Install portage itself (latest version)
   status       To fully understand what this command does, please refer to <https://github.com/thekaigonzalez/Portage/wiki/Maintaining-Portage>.
+  check        Returns the version hash (from 0-5) of the requested package.
 ");
   if (err)return 1;
   return 0;

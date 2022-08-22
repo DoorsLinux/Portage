@@ -49,6 +49,14 @@ int main(string[] args) {
       writeln(":: Updating portage!");
       install("thekaigonzalez/portage");
       break;
+    case "check":
+      if (exists("/tmp/portage/version-" ~ args[2])) {
+        writeln(("/tmp/portage/version-"~args[2]).readText.strip);
+      } else {
+        print_error("the requested package, `" ~ args[2] ~ "' was not found on the system.");
+        return 1;
+      }
+      break;
     case "help":
       return print_usage(false);
     case "update":
