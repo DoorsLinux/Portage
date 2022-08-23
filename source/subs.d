@@ -1,3 +1,5 @@
+module source.subs;
+
 import std.stdio;
 import std.net.curl;
 import std.process;
