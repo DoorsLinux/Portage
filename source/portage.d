@@ -14,6 +14,7 @@ string fresh_or_maintained() {
 }
 
 int main(string[] args) {
+  initialize_home();
   if (executeShell("git").status == 127) {
     print_error("failed to find git installation. please install git.");
     return -1;
