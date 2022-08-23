@@ -38,7 +38,7 @@ void initialize_home() {
 void list_installed() {
   foreach (string f ; dirEntries(HOME_DIR, SpanMode.depth)) {
     f = baseName(f);
-    string pkg_version = readText("/tmp/portage/" ~ f);
+    string pkg_version = readText(HOME_DIR ~ f);
     string pkg_name = f[f.indexOf("-")+1..$];
     writefln("package: %s\n\tversion: %s", pkg_name, pkg_version);
   }
