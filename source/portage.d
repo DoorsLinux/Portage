@@ -57,8 +57,8 @@ int main(string[] args) {
       list_installed();
       return 0;
     case "check":
-      if (exists("/tmp/portage/version-" ~ args[2])) {
-        writeln("Currently installed version of " ~ args[2] ~ ": " ~ ("/tmp/portage/version-"~args[2]).readText.strip[0 .. 5]);
+      if (exists(HOME_DIR ~ "/version-" ~ args[2])) {
+        writeln("Currently installed version of " ~ args[2] ~ ": " ~ (HOME_DIR ~ "/version-"~args[2]).readText.strip[0 .. 5]);
       } else {
         print_error("the requested package, `" ~ args[2] ~ "' was not found on the system.");
         return 1;
