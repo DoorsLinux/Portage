@@ -40,7 +40,7 @@ void initialize_home() {
 void list_installed() {
   foreach (string f ; dirEntries(HOME_DIR, SpanMode.depth)) {
     f = baseName(f);
-    string pkg_version = readText(HOME_DIR ~ f);
+    string pkg_version = readText(HOME_DIR ~ "/" ~ f);
     string pkg_name = f[f.indexOf("-")+1..$];
     writefln("package: %s\n\tversion: %s", pkg_name, pkg_version);
   }
@@ -59,7 +59,7 @@ int remove_pkg(string pkgname) {
     print_error("if you are trying to use an E-Build removal process, do NOT use 'portage remove'.");
     print_error("instead, try to use the new E-Build 'removal' type please.");
     return -1;
-  }
+  } 
 
   writeln(":: Executing remove hooks...");
 
@@ -166,8 +166,7 @@ int install(string pkgname) {
     print_error(e.msg);
     return 1;
   }
-  
-  
+
   writeln("changing working directory...");
 
   try {
