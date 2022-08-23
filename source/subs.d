@@ -29,9 +29,10 @@ Commands:
   return 0;
 }
 
-string HOME_DIR = expandTilde("~/.config/portage/");
+string HOME_DIR = "";
 
 void initialize_home() {
+  HOME_DIR = expandTilde("~/.config/portage");
   if (!exists(HOME_DIR)) { mkdir(HOME_DIR); }
 }
 
@@ -179,7 +180,7 @@ you specified a user instead of a package, if not, report this to https://github
     return build_directory("./");
   }
   string disp_pkgname = pkgname[indexOf(pkgname, '/')+1..$];
-  if (exists(HOME_DIR ~ "portage")) {
+  if (exists(HOME_DIR)) {
     if (exists(HOME_DIR ~ "version-" ~ disp_pkgname)) {
       string ver_last = readText(HOME_DIR ~ "version-" ~ disp_pkgname);
       auto ver = executeShell("git log --format=\"%H\" -n 1");
