@@ -25,6 +25,20 @@ Commands:
   check        Returns the version hash (from 0-5) of the requested package.
   list         List the installed packages and their versions  
   remove       Remove a package.
+
+Synopses:
+  install <package>
+  ask <package>
+  remove <package>
+  build <directory>
+  check <package>
+
+  list ...
+  status ...
+  version ...
+  upgrade ...
+  help ...
+
 ");
   if (err)return 1;
   return 0;
