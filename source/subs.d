@@ -181,8 +181,8 @@ you specified a user instead of a package, if not, report this to https://github
   }
   string disp_pkgname = pkgname[indexOf(pkgname, '/')+1..$];
   if (exists(HOME_DIR)) {
-    if (exists(HOME_DIR ~ "version-" ~ disp_pkgname)) {
-      string ver_last = readText(HOME_DIR ~ "version-" ~ disp_pkgname);
+    if (exists(HOME_DIR ~ "/version-" ~ disp_pkgname)) {
+      string ver_last = readText(HOME_DIR ~ "/version-" ~ disp_pkgname);
       auto ver = executeShell("git log --format=\"%H\" -n 1");
       if (ver.output == ver_last) {
         writeln("warning: reinstalling, both versions are the same!");
@@ -205,7 +205,7 @@ you specified a user instead of a package, if not, report this to https://github
 
   writeln(":: (git) saving version information");
   try {
-  File n = File(HOME_DIR ~ "version-" ~ disp_pkgname, "w");
+  File n = File(HOME_DIR ~ "/version-" ~ disp_pkgname, "w");
   n.write(executeShell("git log --format=\"%H\" -n 1").output);
   n.close();
   } catch (Exception e) {
@@ -215,7 +215,7 @@ you specified a user instead of a package, if not, report this to https://github
   if (!exists("pbuild")) { 
     print_error("repository '" ~ disp_pkgname ~ "' does not support portage.");
     rmdirRecurse("/tmp/gtp");
-    remove(HOME_DIR ~ "version-" ~ disp_pkgname);
+    remove(HOME_DIR ~ "/version-" ~ disp_pkgname);
     return -1;
   }
   string author = executeShell("source ./pbuild && echo \"${author[0]}\"").output.strip;
