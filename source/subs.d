@@ -29,8 +29,14 @@ Commands:
   return 0;
 }
 
+string HOME_DIR = expandTilde("~/.config/portage/");
+
+void initialize_home() {
+  if (!exists(HOME_DIR)) { mkdir(HOME_DIR); }
+}
+
 void list_installed() {
-  foreach (string f ; dirEntries("/tmp/portage", SpanMode.depth)) {
+  foreach (string f ; dirEntries(HOME_DIR, SpanMode.depth)) {
     f = baseName(f);
     string pkg_version = readText("/tmp/portage/" ~ f);
     string pkg_name = f[f.indexOf("-")+1..$];
@@ -64,7 +70,7 @@ int remove_pkg(string pkgname) {
 
   writeln(":: Remove hook completed, package (hopefully) removed! ;)");
   rmdirRecurse("/tmp/gtp");
-  remove("/tmp/portage/version-" ~ pkgname[indexOf(pkgname, "/")+1 .. $]);
+  remove(HOME_DIR ~ "version-" ~ pkgname[indexOf(pkgname, "/")+1 .. $]);
   return 0;
 }
 
@@ -80,7 +86,7 @@ int ask(string pkgname) {
 
 bool same_version(string pkg) {
   auto git_latest = executeShell("git log --format='%H' -n 1");
-  auto fs_latest = readText("/tmp/portage/version-" ~ pkg);
+  auto fs_latest = readText(HOME_DIR ~ "version-" ~ pkg);
 
   if (fs_latest == git_latest.output) return true;
   else return false;
@@ -173,9 +179,9 @@ you specified a user instead of a package, if not, report this to https://github
     return build_directory("./");
   }
   string disp_pkgname = pkgname[indexOf(pkgname, '/')+1..$];
-  if (exists("/tmp/portage")) {
-    if (exists("/tmp/portage/version-" ~ disp_pkgname)) {
-      string ver_last = readText("/tmp/portage/version-" ~ disp_pkgname);
+  if (exists(HOME_DIR ~ "portage")) {
+    if (exists(HOME_DIR ~ "version-" ~ disp_pkgname)) {
+      string ver_last = readText(HOME_DIR ~ "version-" ~ disp_pkgname);
       auto ver = executeShell("git log --format=\"%H\" -n 1");
       if (ver.output == ver_last) {
         writeln("warning: reinstalling, both versions are the same!");
@@ -193,12 +199,12 @@ you specified a user instead of a package, if not, report this to https://github
       }
     }
   } else {
-    mkdir("/tmp/portage");
+    initialize_home();
   }
 
   writeln(":: (git) saving version information");
   try {
-  File n = File("/tmp/portage/version-" ~ disp_pkgname, "w");
+  File n = File(HOME_DIR ~ "version-" ~ disp_pkgname, "w");
   n.write(executeShell("git log --format=\"%H\" -n 1").output);
   n.close();
   } catch (Exception e) {
@@ -208,7 +214,7 @@ you specified a user instead of a package, if not, report this to https://github
   if (!exists("pbuild")) { 
     print_error("repository '" ~ disp_pkgname ~ "' does not support portage.");
     rmdirRecurse("/tmp/gtp");
-    remove("/tmp/portage/version-" ~ disp_pkgname);
+    remove(HOME_DIR ~ "version-" ~ disp_pkgname);
     return -1;
   }
   string author = executeShell("source ./pbuild && echo \"${author[0]}\"").output.strip;
