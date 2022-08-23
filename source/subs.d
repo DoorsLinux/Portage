@@ -77,7 +77,7 @@ int remove_pkg(string pkgname) {
 
   writeln(":: Executing remove hooks...");
 
-  auto removeHook = executeShell("source ./pbuild && remove");
+  auto removeHook = executeShell(". ./pbuild && remove");
 
   if (removeHook.status == 127) {
     print_error("currently, your package does not support the 'remove' hook;\nbut give maintainers some time to adjust.");
@@ -117,8 +117,8 @@ int build_directory(string dirname) {
     print_error("no ebuild found.");
     return 1;
   }
-  string author = executeShell("source ./ebuild && echo \"${author[0]}\"").output.strip;
-  string repo = executeShell("source ./ebuild && echo \"${repository[0]}\"").output.strip;
+  string author = executeShell(". ./ebuild && echo \"${author[0]}\"").output.strip;
+  string repo = executeShell(". ./ebuild && echo \"${repository[0]}\"").output.strip;
   
   writeln(":: Cloning repository...");
   executeShell("git clone " ~ repo ~ " /tmp/gtp");
@@ -152,7 +152,7 @@ int build_directory(string dirname) {
 
   writeln(":: Building package...");
   
-  executeShell("source ./ebuild && instruction");
+  executeShell(". ./ebuild && instruction");
 
   writeln(":: Running post-install ...");
 
@@ -232,7 +232,7 @@ you specified a user instead of a package, if not, report this to https://github
     remove(HOME_DIR ~ "/version-" ~ disp_pkgname);
     return -1;
   }
-  string author = executeShell("source ./pbuild && echo \"${author[0]}\"").output.strip;
+  string author = executeShell(". ./pbuild && echo \"${author[0]}\"").output.strip;
 
   if (author.length == 0) {
     author = "(No Author information)";
@@ -247,7 +247,7 @@ you specified a user instead of a package, if not, report this to https://github
     return 0;
   }
   writeln(":: Building package...");
-  executeShell("source ./pbuild && build");
+  executeShell(". ./pbuild && build");
   // chdir("build");
   // auto ninja = executeShell("ninja install");
   // if (ninja.status != 0) {
