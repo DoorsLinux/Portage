@@ -76,6 +76,7 @@ int main(string[] args) {
       install(args[2]);
       break;
     default:
+      initialize_home();
       if (!exists(expandTilde("~/.config/portage/subcommands"))) mkdir(expandTilde("~/.config/portage/subcommands"));
       
       if (exists(expandTilde("~/.config/portage/subcommands/" ~ args[1]))) {
