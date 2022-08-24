@@ -54,6 +54,7 @@ void initialize_home() {
 
 void list_installed() {
   foreach (string f ; dirEntries(HOME_DIR, SpanMode.shallow)) {
+    if (!isFile(f)) continue;
     f = baseName(f);
     string pkg_version = readText(HOME_DIR ~ "/" ~ f);
     string pkg_name = f[f.indexOf("-")+1..$];
