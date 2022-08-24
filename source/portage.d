@@ -1,8 +1,10 @@
 import std.stdio;
 import std.format;
 import source.subs;
+import std.algorithm;
 import std.process;
 import std.file;
+import std.path;
 import std.string;
 import source.gitversion;
 
@@ -74,7 +76,18 @@ int main(string[] args) {
       install(args[2]);
       break;
     default:
-      print_error(format("unknown command, `%s'", args[1]));
+      if (!exists(expandTilde("~/.config/portage/subcommands"))) mkdir(expandTilde("~/.config/portage/subcommands"));
+      
+      if (exists(expandTilde("~/.config/portage/subcommands/" ~ args[1]))) {
+        string subf = args[1];
+        string cmd = expandTilde("~/.config/portage/subcommands/" ~ subf) ~ " " ~ join(remove(args, 0).remove(0), " ");
+
+        auto shellcd = executeShell(cmd);
+
+        write(shellcd.output);
+      } else {
+        print_error(format("unknown command, `%s'", args[1]));
+      }
       return 1;
   }
   } catch (Error e) {
