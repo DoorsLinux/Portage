@@ -50,7 +50,7 @@ int main(string[] args) {
       break;
     case "upgrade":
       writeln(":: Updating portage!");
-      install("thekaigonzalez/portage");
+      install("thekaigonzalez/portage.codeberg");
       break;
     case "remove":
       remove_pkg(args[2]);
