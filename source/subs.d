@@ -1,3 +1,5 @@
+/* portage */
+
 module source.subs;
 
 import std.stdio;
