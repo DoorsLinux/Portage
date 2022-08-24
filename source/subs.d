@@ -122,23 +122,24 @@ int build_directory(string dirname) {
   string repo = executeShell(". ./ebuild && echo \"${repository[0]}\"").output.strip;
   
   writeln(":: Cloning repository...");
-  executeShell("git clone " ~ repo ~ " /tmp/gtp");
-  
+
+  auto gitclone = executeShell("git clone " ~ repo ~ " /tmp/ctp");
+  writeln(gitclone.output);
   writeln(":: Configuring repository...");
 
   // OK, so this is a bit tricky.
   // What I'm gonna do is copy the ebuild to the working
   // directory and i'm gonna try to run the instructions as
   // if they were in the current dir.
-  if (!exists("/tmp/gtp/ebuild"))
-  copy("./ebuild", "/tmp/gtp/ebuild");
+  if (!exists("/tmp/ctp/ebuild"))
+  copy("./ebuild", "/tmp/ctp/ebuild");
 
   try {
-    chdir("/tmp/gtp");
+    chdir("/tmp/ctp");
   }
   catch (FileException) {
     print_error("failed to change to the temporary directory!");
-    rmdirRecurse("/tmp/gtp");
+    rmdirRecurse("/tmp/ctp");
     return -1;
   }
 
@@ -158,6 +159,7 @@ int build_directory(string dirname) {
   writeln(":: Running post-install ...");
 
   rmdirRecurse("/tmp/gtp");
+  rmdirRecurse("/tmp/ctp");
 
   writeln("Installation completed!");
 
