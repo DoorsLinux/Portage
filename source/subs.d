@@ -166,8 +166,17 @@ int install(string pkgname) {
     print_error("package not found: " ~ pkgname);
     return 1;
   }
+
+  auto norepo = executeShell(". ./pbuild && echo \"$norepo\"").output.strip;
+
+  if (norepo == "yes") {
+    auto sh = executeShell(". ./pbuild && build");
+    writeln(sh.output.strip);
+    return sh.status;
+  }
+
   writeln("downloading version from git...");
-  
+
   try {
     executeShell("git clone https://github.com/" ~ pkgname ~ " /tmp/gtp");
   } catch (ProcessException e) {
@@ -241,13 +250,7 @@ you specified a user instead of a package, if not, report this to https://github
     return 0;
   }
   writeln(":: Building package...");
-  auto norepo = executeShell(". ./pbuild && echo \"$norepo\"").output.strip;
 
-  if (norepo == "yes") {
-    auto sh = executeShell(". ./pbuild && build");
-    writeln(sh.output.strip);
-    return sh.status;
-  }
   executeShell(". ./pbuild && build");
   // chdir("build");
   // auto ninja = executeShell("ninja install");
