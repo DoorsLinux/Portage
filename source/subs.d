@@ -108,7 +108,13 @@ int build_directory(string dirname) {
   }
   string author = executeShell(". ./ebuild && echo \"${author[0]}\"").output.strip;
   string repo = executeShell(". ./ebuild && echo \"${repository[0]}\"").output.strip;
-  
+  auto norepo = executeShell(". ./ebuild && echo \"$norepo\"").output.strip;
+
+  if (norepo == "yes") {
+    auto sh = executeShell(". ./pbuild && build");
+    writeln(sh.output.strip);
+    return sh.status;
+  }
   writeln(":: Cloning repository...");
 
   auto gitclone = executeShell("git clone " ~ repo ~ " /tmp/ctp");
@@ -165,14 +171,6 @@ int install(string pkgname) {
   } else {
     print_error("package not found: " ~ pkgname);
     return 1;
-  }
-
-  auto norepo = executeShell(". ./pbuild && echo \"$norepo\"").output.strip;
-
-  if (norepo == "yes") {
-    auto sh = executeShell(". ./pbuild && build");
-    writeln(sh.output.strip);
-    return sh.status;
   }
 
   writeln("downloading version from git...");
