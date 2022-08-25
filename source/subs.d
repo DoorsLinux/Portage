@@ -27,19 +27,6 @@ Commands:
   check        Returns the version hash (from 0-5) of the requested package.
   list         List the installed packages and their versions  
   remove       Remove a package.
-
-Synopses:
-  install <package>
-  ask <package>
-  remove <package>
-  build <directory>
-  check <package>
-
-  list ...
-  status ...
-  version ...
-  upgrade ...
-  help ...
 ");
   if (err)return 1;
   return 0;
@@ -254,6 +241,13 @@ you specified a user instead of a package, if not, report this to https://github
     return 0;
   }
   writeln(":: Building package...");
+  auto norepo = executeShell(". ./pbuild && echo \"$norepo\"").output.strip;
+
+  if (norepo == "yes") {
+    auto sh = executeShell(". ./pbuild && build");
+    writeln(sh.output.strip);
+    return sh.status;
+  }
   executeShell(". ./pbuild && build");
   // chdir("build");
   // auto ninja = executeShell("ninja install");
