@@ -141,6 +141,7 @@ int build_directory(string dirname) {
   catch (FileException) {
     print_error("failed to change to the temporary directory!");
     rmdirRecurse("/tmp/ctp");
+    rmdirRecurse("/tmp/gtp");
     return -1;
   }
 
@@ -155,7 +156,9 @@ int build_directory(string dirname) {
 
   writeln(":: Building package...");
   
-  executeShell(". ./ebuild && instruction");
+  auto f = executeShell(". ./ebuild && instruction");
+  
+  writeln(f.output);
 
   writeln(":: Running post-install ...");
 
