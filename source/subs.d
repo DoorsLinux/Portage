@@ -111,7 +111,7 @@ int build_directory(string dirname) {
   auto norepo = executeShell(". ./ebuild && echo \"$norepo\"").output.strip;
 
   if (norepo == "yes") {
-    auto sh = executeShell(". ./pbuild && build");
+    auto sh = executeShell(". ./ebuild && build");
     writeln(sh.output.strip);
     return sh.status;
   }
